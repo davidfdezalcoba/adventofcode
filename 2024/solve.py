@@ -5,11 +5,19 @@ NUM_PROBLEM = sys.argv[1]
 
 
 def main():
-    implementations = importlib.import_module(f'implementations.Problem_{NUM_PROBLEM}')
-    Problem = getattr(implementations, f'Problem_{NUM_PROBLEM}')
+    if '_' in NUM_PROBLEM:
+        file = f'Problem_{NUM_PROBLEM[:-2]}'
+        input = f'{NUM_PROBLEM[:-2]}'
+        cl = f'Problem_{NUM_PROBLEM}'
+    else:
+        file = f'Problem_{NUM_PROBLEM}'
+        input = f'{NUM_PROBLEM}'
+        cl = f'Problem_{NUM_PROBLEM}'
+    implementations = importlib.import_module(f'implementations.{file}')
+    Problem = getattr(implementations, cl)
     problem = Problem()
 
-    with open(f'./inputs/{NUM_PROBLEM}.txt', 'r') as input:
+    with open(f'./inputs/{input}.txt', 'r') as input:
         problem.parseInput(input)
 
     problem.solve()
